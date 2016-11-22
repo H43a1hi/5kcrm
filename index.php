@@ -1,21 +1,18 @@
-<?php
-$user = $_POST[user];
- 
-$pass = md5($_POST[pass]);
- 
-$sql = "select pw from php where user='$user'";
-$query = mysqli_query($conn,$sql);
-if (!$query) {
-printf("Error: %s\n", mysqli_error($conn));
-exit();
-}
-$row = mysqli_fetch_array($query);
-//echo $row["pw"];
-if (($row[pw]) &amp;&amp; (!strcasecmp($pass, $row[pw]))) {
-echo "&lt;p&gt;Logged in! Key: ################################ &lt;/p&gt;";
-}
-else {
-echo("&lt;p&gt;Log in failure!&lt;/p&gt;")；
-}
-}
+<?php  
+$user = $_GET["user"];  
+$file = $_GET["file"];  
+$pass = $_GET["pass"];  
+//亲。这是一道原题,
+if(isset($user)&&(file_get_contents($user,'r')==="administrator")){  
+    echo "hello Administrator!<br>";  
+    if(preg_match("/flag/",$file)){  
+        exit();  
+    }else{  
+        include($file); //class.php  
+        $pass = unserialize($pass);  
+        echo $pass;  
+    }  
+}else{  
+    echo "not allowed!";  
+}  
 ?>
